@@ -15,10 +15,10 @@ https://trello.com/b/MJ1P6DuI/filearchive
 ## Team ##
 Zespół "Cocoders & friends" w którego skład wchodzi firma "[Cocoders](http://www.cocoders.com)" wraz z przyjaciółmi:
 
-* Leszek "@l3l0" Prabucki, Müggau
-* Szymon "@skowi" Skowroński, Toruń
-* Michał "@omenrpg" Kozłowski, Wierzbiny
-* Robert "@meph87" Stepnowski, Gdańsk Wrzeszcz
-* Kamil "@pomek" Piechaczek, Bytom
+* Leszek "[@l3l0](http://github.com/l3l0)" Prabucki, Müggau
+* Szymon "[@skowi](http://github.com/skowi)" Skowroński, Toruń
+* Michał "[@omenrpg](http://github.com/omenrpg)" Kozłowski, Wierzbiny
+* Robert "[@meph87](http://github.com/meph87)" Stepnowski, Gdańsk Wrzeszcz
+* Kamil "[@pomek](http://github.com/pomek)" Piechaczek, Bytom
 
 Zespół reprezentuje społeczność PHPers Trójmiasto.
