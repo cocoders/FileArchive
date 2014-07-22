@@ -1,7 +1,12 @@
 vendor/
 bin/
+
 # Bootstrap
 app/bootstrap*
+
+# Trash
+/.idea
+/.vagrant
 
 # Symfony directories
 vendor/*
