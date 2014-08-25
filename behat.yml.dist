@@ -1,7 +1,0 @@
-default:
-  suites:
-    photo_owner:
-      contexts: [ PhotosOwnerContext ]
-      paths:    [ %paths.base%/features ]
-      filters:
-        role: photos owner
