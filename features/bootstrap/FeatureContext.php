@@ -4,6 +4,8 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Cocoders\DummyFileSource\DummyFileSource;
+use Cocoders\FileSource\FileSourceRegistry;
 
 /**
  * Behat context class.
@@ -18,28 +20,29 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function __construct()
     {
+        $this->fileSourceRegistry = new FileSourceRegistry();
     }
 
     /**
-     * @Given I have a following files:
+     * @Given There is dummy file source with following files:
      */
-    public function iHaveAFollowingFiles(TableNode $table)
+    public function thereIsDummyFileSourceWithFollowingFiles(TableNode $table)
     {
-        throw new PendingException();
+        $paths = array_map(
+            function ($row) {
+                return $row['path'];
+            },
+            $table->getHash()
+        );
+
+        $dummyFileSource = new DummyFileSource($paths);
+        $this->fileSourceRegistry->register('dummy', $dummyFileSource);
     }
 
     /**
-     * @Given I have project configured properly
+     * @When I create :arg1 archive from :arg2 directory using :arg3 file source
      */
-    public function iHaveProjectConfiguredProperly()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When I create :arg1 archive from :arg2 directory
-     */
-    public function iCreateArchiveFromDirectory($arg1, $arg2)
+    public function iCreateArchiveFromDirectoryUsingFilesource($arg1, $arg2, $arg3)
     {
         throw new PendingException();
     }
