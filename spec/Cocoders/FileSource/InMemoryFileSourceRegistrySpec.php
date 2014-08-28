@@ -3,16 +3,16 @@
 namespace spec\Cocoders\FileSource;
 
 use Cocoders\FileSource\FileSource;
-use Cocoders\FileSource\FileSourceRegistry;
+use Cocoders\FileSource\InMemoryFileSourceRegistry;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 /**
  * Class FileSourceRegistrySpec
  * @package spec\Cocoders\FileSource
- * @mixin FileSourceRegistry
+ * @mixin InMemoryFileSourceRegistry
  */
-class FileSourceRegistrySpec extends ObjectBehavior
+class InMemoryFileSourceRegistrySpec extends ObjectBehavior
 {
     function it_allows_to_register_file_source(FileSource $newFileSource, FileSource $dummyFileSource)
     {
