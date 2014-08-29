@@ -10,14 +10,3 @@ before_script:
 script:
  - php bin/phpspec run -fpretty
  - php bin/behat --tags=ready
-
-fileSource:
-  local:
-    myLocal: ~
-  ftp:
-    myftp1:
-      user : user!@#!@
-      host: !@#!@#!2
-    myftp2:
-      user: 12312
-      host: 12312
