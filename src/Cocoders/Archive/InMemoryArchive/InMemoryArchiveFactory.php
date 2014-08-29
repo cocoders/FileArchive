@@ -6,8 +6,13 @@ use Cocoders\Archive\ArchiveFactory;
 
 class InMemoryArchiveFactory implements ArchiveFactory
 {
-    public function create($name)
+    public function create($name, $archiveFiles)
     {
-        return new InMemoryArchive($name);
+        $archive = new InMemoryArchive($name);
+        foreach ($archiveFiles as $archiveFile) {
+            $archive->addFile($archiveFile);
+        }
+
+        return $archive;
     }
 }
