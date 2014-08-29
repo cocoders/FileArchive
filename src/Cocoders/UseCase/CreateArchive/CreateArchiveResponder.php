@@ -1,6 +1,6 @@
 <?php
 
-namespace Cocoders\CreateArchive;
+namespace Cocoders\UseCase\CreateArchive;
 
 interface CreateArchiveResponder
 {

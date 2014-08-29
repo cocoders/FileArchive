@@ -1,21 +1,18 @@
 <?php
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Cocoders\Archive\InMemoryArchiveFactory;
-use Cocoders\Archive\InMemoryArchiveRepository;
-use Cocoders\CreateArchive\CreateArchiveRequest;
-use Cocoders\CreateArchive\CreateArchiveResponder;
-use Cocoders\CreateArchive\CreateArchiveUseCase;
-use Cocoders\DummyFileSource\DummyFileSource;
-use Cocoders\FileSource\InMemoryFileSourceRegistry;
+use Cocoders\Archive\InMemoryArchive\InMemoryArchiveFactory;
+use Cocoders\Archive\InMemoryArchive\InMemoryArchiveRepository;
+use Cocoders\UseCase\CreateArchive\CreateArchiveRequest;
+use Cocoders\UseCase\CreateArchive\CreateArchiveUseCase;
+use Cocoders\FileSource\DummyFileSource\DummyFileSource;
+use Cocoders\FileSource\InMemoryFileSource\InMemoryFileSourceRegistry;
 
 /**
  * Behat context class.
  */
-class FeatureContext implements SnippetAcceptingContext, CreateArchiveResponder
+class FeatureContext implements SnippetAcceptingContext
 {
     /**
      * Initializes context.
@@ -28,8 +25,6 @@ class FeatureContext implements SnippetAcceptingContext, CreateArchiveResponder
         $this->fileSourceRegistry = new InMemoryFileSourceRegistry();
         $this->archiveRepository = new InMemoryArchiveRepository();
         $this->archiveFactory = new InMemoryArchiveFactory();
-
-        $this->lastAddedArchiveName = false;
     }
 
     /**
@@ -61,7 +56,6 @@ class FeatureContext implements SnippetAcceptingContext, CreateArchiveResponder
             $this->archiveRepository
         );
 
-        $createArchiveUseCase->addResponder($this);
         $createArchiveUseCase->execute($createArchiveRequest);
     }
 
@@ -70,19 +64,6 @@ class FeatureContext implements SnippetAcceptingContext, CreateArchiveResponder
      */
     public function iShouldSeeArchiveOnTheArchivesList($name)
     {
-        PHPUnit_Framework_Assert::assertEquals($name, $this->lastAddedArchiveName);
-    }
-
-    /**
-     * @Given :arg1 archive should not be uploaded
-     */
-    public function archiveShouldNotBeUploaded($arg1)
-    {
-        throw new PendingException();
-    }
-
-    public function archiveCreated($name)
-    {
-        $this->lastAddedArchiveName = $name;
+        PHPUnit_Framework_Assert::assertEquals($name, $this->archiveRepository->findByName($name)->getName());
     }
 }

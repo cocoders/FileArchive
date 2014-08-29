@@ -1,6 +1,9 @@
 <?php
 
-namespace Cocoders\Archive;
+namespace Cocoders\Archive\InMemoryArchive;
+
+use Cocoders\Archive\Archive;
+use Cocoders\Archive\ArchiveRepository;
 
 class InMemoryArchiveRepository implements ArchiveRepository
 {

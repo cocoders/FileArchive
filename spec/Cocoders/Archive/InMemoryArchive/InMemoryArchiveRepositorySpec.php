@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Cocoders\Archive;
+namespace spec\Cocoders\Archive\InMemoryArchive;
 
 use Cocoders\Archive\Archive;
-use Cocoders\Archive\InMemoryArchiveRepository;
+use Cocoders\Archive\InMemoryArchive\InMemoryArchiveRepository;
 use PhpSpec\ObjectBehavior;
 
 /**

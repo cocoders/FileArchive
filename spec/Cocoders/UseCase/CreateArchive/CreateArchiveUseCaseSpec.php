@@ -1,17 +1,19 @@
 <?php
 
-namespace spec\Cocoders\CreateArchive;
+namespace spec\Cocoders\UseCase\CreateArchive;
 
 use Cocoders\Archive\Archive;
 use Cocoders\Archive\ArchiveFactory;
+use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
-use Cocoders\CreateArchive\CreateArchiveRequest;
-use Cocoders\CreateArchive\CreateArchiveResponder;
-use Cocoders\CreateArchive\CreateArchiveUseCase;
+use Cocoders\UseCase\CreateArchive\CreateArchiveRequest;
+use Cocoders\UseCase\CreateArchive\CreateArchiveResponder;
+use Cocoders\UseCase\CreateArchive\CreateArchiveUseCase;
 use Cocoders\FileSource\File;
 use Cocoders\FileSource\FileSource;
 use Cocoders\FileSource\FileSourceRegistry;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 /**
  * Class CreateArchiveUseCaseSpec
@@ -31,7 +33,21 @@ class CreateArchiveUseCaseSpec extends ObjectBehavior
     ) {
         $fileSourceRegistry->get('dummy')->willReturn($fileSource);
         $fileSource->getFiles('path')->willReturn([$file]);
-        $archiveFactory->create('name')->willReturn($archive);
+        $archiveFactory->create(
+            'name',
+            Argument::that(
+                function ($archiveFiles) {
+                    foreach ($archiveFiles as $archiveFile) {
+                        if (!$archiveFile instanceof ArchiveFile) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            )
+        )->willReturn($archive);
+        $archive->getName()->willReturn('name');
 
         $this->beConstructedWith($fileSourceRegistry, $archiveFactory, $archiveRepository);
     }
@@ -39,8 +55,7 @@ class CreateArchiveUseCaseSpec extends ObjectBehavior
     function it_creates_archive(
         Archive $archive,
         ArchiveRepository $archiveRepository
-    )
-    {
+    ) {
         $createArchiveRequest = new CreateArchiveRequest('dummy', 'name', 'path');
 
         $archiveRepository->add($archive)->shouldBeCalled();
@@ -53,7 +68,7 @@ class CreateArchiveUseCaseSpec extends ObjectBehavior
         $this->addResponder($responder);
         $createArchiveRequest = new CreateArchiveRequest('dummy', 'name', 'path');
 
-        $responder->archiveCreated()->shouldBeCalled();
+        $responder->archiveCreated('name')->shouldBeCalled();
 
         $this->execute($createArchiveRequest);
 

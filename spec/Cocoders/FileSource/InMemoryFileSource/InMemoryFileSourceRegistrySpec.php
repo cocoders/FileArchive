@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Cocoders\FileSource;
+namespace spec\Cocoders\FileSource\InMemoryFileSource;
 
 use Cocoders\FileSource\FileSource;
-use Cocoders\FileSource\InMemoryFileSourceRegistry;
+use Cocoders\FileSource\InMemoryFileSource\InMemoryFileSourceRegistry;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

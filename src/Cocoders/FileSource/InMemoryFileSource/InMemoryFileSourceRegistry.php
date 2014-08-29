@@ -1,6 +1,9 @@
 <?php
 
-namespace Cocoders\FileSource;
+namespace Cocoders\FileSource\InMemoryFileSource;
+
+use Cocoders\FileSource\FileSource;
+use Cocoders\FileSource\FileSourceRegistry;
 
 class InMemoryFileSourceRegistry implements FileSourceRegistry
 {

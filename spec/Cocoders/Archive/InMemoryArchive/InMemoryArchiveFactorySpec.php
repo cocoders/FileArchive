@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Cocoders\Archive;
+namespace spec\Cocoders\Archive\InMemoryArchive;
 
-use Cocoders\Archive\InMemoryArchiveFactory;
+use Cocoders\Archive\InMemoryArchive\InMemoryArchiveFactory;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -19,6 +19,6 @@ class InMemoryArchiveFactorySpec extends ObjectBehavior
 
     function it_creates_in_memory_archive_source()
     {
-        $this->create('Archive')->shouldHaveType('Cocoders\Archive\InMemoryArchive');
+        $this->create('Archive')->shouldHaveType('Cocoders\Archive\InMemoryArchive\InMemoryArchive');
     }
 }

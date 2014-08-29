@@ -1,6 +1,6 @@
 <?php
 
-namespace Cocoders\DummyFileSource;
+namespace Cocoders\FileSource\DummyFileSource;
 
 use Cocoders\FileSource\File;
 use Cocoders\FileSource\FileSource;

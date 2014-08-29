@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Cocoders\DummyFileSource;
+namespace spec\Cocoders\FileSource\DummyFileSource;
 
-use Cocoders\DummyFileSource\DummyFileSource;
+use Cocoders\FileSource\DummyFileSource\DummyFileSource;
 use PhpSpec\ObjectBehavior;
 
 /**

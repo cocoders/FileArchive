@@ -11,4 +11,3 @@ Feature: Creating archive
       | /home/cocoders/bbb/b.wav  |
     When I create "my-name" archive from "/home/cocoders/bbb/" directory using "dummy" file source
     Then I should see "my-name" archive on the archives list
-    And "my-name" archive should not be uploaded

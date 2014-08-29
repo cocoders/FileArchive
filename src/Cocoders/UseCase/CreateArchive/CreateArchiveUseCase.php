@@ -1,8 +1,9 @@
 <?php
 
-namespace Cocoders\CreateArchive;
+namespace Cocoders\UseCase\CreateArchive;
 
 use Cocoders\Archive\ArchiveFactory;
+use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
 use Cocoders\FileSource\FileSourceRegistry;
 
@@ -44,8 +45,13 @@ class CreateArchiveUseCase
     {
         $fileSource = $this->fileSourceRegistry->get($request->fileSource);
         $files = $fileSource->getFiles($request->path);
-        //@todo from files create archive files and add to archive
-        $archive = $this->archiveFactory->create($request->name);
+        //@todo move to new transformer object (from fileSourceFile to ArchiveFile)
+        $archiveFiles = [];
+        foreach ($files as $file) {
+            $archiveFiles[] = new ArchiveFile($file->path);
+        }
+
+        $archive = $this->archiveFactory->create($request->name, $archiveFiles);
         $this->archiveRepository->add($archive);
 
         foreach ($this->responders as $responder) {

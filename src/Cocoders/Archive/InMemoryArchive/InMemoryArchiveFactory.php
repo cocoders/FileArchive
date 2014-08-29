@@ -1,6 +1,8 @@
 <?php
 
-namespace Cocoders\Archive;
+namespace Cocoders\Archive\InMemoryArchive;
+
+use Cocoders\Archive\ArchiveFactory;
 
 class InMemoryArchiveFactory implements ArchiveFactory
 {
