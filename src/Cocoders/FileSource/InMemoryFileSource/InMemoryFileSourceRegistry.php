@@ -7,6 +7,9 @@ use Cocoders\FileSource\FileSourceRegistry;
 
 class InMemoryFileSourceRegistry implements FileSourceRegistry
 {
+    /**
+     * @var array
+     */
     private $fileSources = [];
 
     public function register($name, FileSource $fileSource)

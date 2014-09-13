@@ -2,11 +2,10 @@
 
 namespace Cocoders\FileSource;
 
-
 interface FileSource
 {
     /**
-     * @param $path
+     * @param string $path
      * @return File[]
      */
     public function getFiles($path);

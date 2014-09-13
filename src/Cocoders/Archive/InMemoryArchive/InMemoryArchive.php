@@ -8,7 +8,7 @@ use Cocoders\Archive\ArchiveFile;
 class InMemoryArchive implements Archive
 {
     /**
-     * @var String
+     * @var string
      */
     private $name;
 
@@ -17,21 +17,14 @@ class InMemoryArchive implements Archive
      */
     private $files;
 
-    public function __construct($name)
+    public function __construct($name, array $archiveFiles)
     {
         $this->name = $name;
+        $this->files = $archiveFiles;
     }
 
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param $archiveFile
-     */
-    public function addFile($archiveFile)
-    {
-        $this->files[] = $archiveFile;
     }
 }

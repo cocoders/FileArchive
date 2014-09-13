@@ -5,8 +5,8 @@ namespace Cocoders\Archive;
 interface ArchiveFactory
 {
     /**
-     * @param $name
-     * @param $archiveFiles ArchiveFile[]
+     * @param String $name
+     * @param ArchiveFile[] $archiveFiles
      * @return Archive
      */
     public function create($name, $archiveFiles);

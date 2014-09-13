@@ -2,6 +2,7 @@
 
 namespace spec\Cocoders\Archive\InMemoryArchive;
 
+use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\InMemoryArchive\InMemoryArchive;
 use PhpSpec\ObjectBehavior;
 
@@ -14,7 +15,7 @@ class InMemoryArchiveSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('archive');
+        $this->beConstructedWith('archive', [new ArchiveFile('test')]);
     }
 
     function it_is_archive_type()

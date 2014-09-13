@@ -51,7 +51,7 @@ class CreateArchiveUseCase
             $archiveFiles[] = new ArchiveFile($file->path);
         }
 
-        $archive = $this->archiveFactory->create($request->name, $archiveFiles);
+        $archive = $this->archiveFactory->create($request->archiveName, $archiveFiles);
         $this->archiveRepository->add($archive);
 
         foreach ($this->responders as $responder) {

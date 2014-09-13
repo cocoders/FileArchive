@@ -5,7 +5,7 @@ namespace Cocoders\Archive;
 interface Archive
 {
     /**
-     * @return String
+     * @return string
      */
     public function getName();
 }

@@ -8,11 +8,6 @@ class InMemoryArchiveFactory implements ArchiveFactory
 {
     public function create($name, $archiveFiles)
     {
-        $archive = new InMemoryArchive($name);
-        foreach ($archiveFiles as $archiveFile) {
-            $archive->addFile($archiveFile);
-        }
-
-        return $archive;
+        return new InMemoryArchive($name, $archiveFiles);
     }
 }

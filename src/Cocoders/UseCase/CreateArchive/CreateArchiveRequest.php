@@ -4,14 +4,14 @@ namespace Cocoders\UseCase\CreateArchive;
 
 class CreateArchiveRequest
 {
-    public $name;
+    public $archiveName;
     public $fileSource;
     public $path;
 
-    public function __construct($fileSource, $name, $path)
+    public function __construct($fileSourceName, $archiveName, $path)
     {
-        $this->fileSource = $fileSource;
-        $this->name = $name;
+        $this->fileSource = $fileSourceName;
+        $this->archiveName = $archiveName;
         $this->path = $path;
     }
 }

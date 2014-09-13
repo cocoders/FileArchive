@@ -9,17 +9,8 @@ use Cocoders\UseCase\CreateArchive\CreateArchiveUseCase;
 use Cocoders\FileSource\DummyFileSource\DummyFileSource;
 use Cocoders\FileSource\InMemoryFileSource\InMemoryFileSourceRegistry;
 
-/**
- * Behat context class.
- */
 class FeatureContext implements SnippetAcceptingContext
 {
-    /**
-     * Initializes context.
-     *
-     * Every scenario gets it's own context object.
-     * You can also pass arbitrary arguments to the context constructor through behat.yml.
-     */
     public function __construct()
     {
         $this->fileSourceRegistry = new InMemoryFileSourceRegistry();
@@ -46,9 +37,9 @@ class FeatureContext implements SnippetAcceptingContext
     /**
      * @When I create :arg1 archive from :arg2 directory using :arg3 file source
      */
-    public function iCreateArchiveFromDirectoryUsingFilesource($name, $path, $fileSource)
+    public function iCreateArchiveFromDirectoryUsingFilesource($archiveName, $path, $fileSourceName)
     {
-        $createArchiveRequest = new CreateArchiveRequest($fileSource, $name, $path);
+        $createArchiveRequest = new CreateArchiveRequest($fileSourceName, $archiveName, $path);
 
         $createArchiveUseCase = new CreateArchiveUseCase(
             $this->fileSourceRegistry,
