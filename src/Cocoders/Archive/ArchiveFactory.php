@@ -2,13 +2,12 @@
 
 namespace Cocoders\Archive;
 
-class ArchiveFactory
+interface ArchiveFactory
 {
     /**
+     * @param String $name
+     * @param ArchiveFile[] $archiveFiles
      * @return Archive
      */
-    public function createArchive(Name $name)
-    {
-        return new Archive($name);
-    }
+    public function create($name, $archiveFiles);
 }
