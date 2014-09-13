@@ -10,10 +10,15 @@
     "require-dev": {
         "behat/behat": "3.0.*",
         "phpspec/phpspec": "2.0.*@dev",
-        "phpunit/phpunit": "~4.0.7"
+        "phpunit/phpunit": "~4.0.7",
+        "knplabs/gaufrette": "0.2.*@dev",
+        "mikey179/vfsStream": "1.4.*@dev"
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "suggest": {
+        "knplabs/gaufrette": "to use GaufretteFileSource"
     },
     "authors": [
         {
