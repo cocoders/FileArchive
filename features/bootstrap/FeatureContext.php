@@ -4,6 +4,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
 use Cocoders\Archive\InMemoryArchive\InMemoryArchiveFactory;
 use Cocoders\Archive\InMemoryArchive\InMemoryArchiveRepository;
+use Cocoders\Upload\UploadedArchive\InMemoryUploadedArchive\InMemoryUploadedArchiveFactory;
 use Cocoders\Upload\UploadProvider\DummyUploadProvider\DummyUploadProvider;
 use Cocoders\Upload\UploadProvider\InMemoryUploadProvider\InMemoryUploadProvider;
 use Cocoders\UseCase\CreateArchive\CreateArchiveRequest;
@@ -11,15 +12,18 @@ use Cocoders\UseCase\CreateArchive\CreateArchiveUseCase;
 use Cocoders\FileSource\DummyFileSource\DummyFileSource;
 use Cocoders\FileSource\InMemoryFileSource\InMemoryFileSourceRegistry;
 use Cocoders\UseCase\UploadArchive\UploadArchiveRequest;
+use Cocoders\UseCase\UploadArchive\UploadArchiveResponder;
 use Cocoders\UseCase\UploadArchive\UploadArchiveUseCase;
 
-class FeatureContext implements SnippetAcceptingContext
+class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
 {
     public function __construct()
     {
+        $this->lastUploadedArchiveName = null;
         $this->fileSourceRegistry = new InMemoryFileSourceRegistry();
         $this->archiveRepository = new InMemoryArchiveRepository();
         $this->archiveFactory = new InMemoryArchiveFactory();
+        $this->uploadedArchiveFactory = new InMemoryUploadedArchiveFactory();
         $this->uploadProvidersRegistry = new InMemoryUploadProvider();
         $this->createArchiveUseCase = new CreateArchiveUseCase(
             $this->fileSourceRegistry,
@@ -27,9 +31,11 @@ class FeatureContext implements SnippetAcceptingContext
             $this->archiveRepository
         );
         $this->uploadArchiveUseCase = new UploadArchiveUseCase(
+            $this->uploadedArchiveFactory,
             $this->uploadProvidersRegistry,
             $this->archiveRepository
         );
+        $this->uploadArchiveUseCase->addResponder($this);
     }
 
     /**
@@ -105,8 +111,17 @@ class FeatureContext implements SnippetAcceptingContext
     /**
      * @Then :arg1 archive should be uploaded
      */
-    public function archiveShouldBeUploaded($arg1)
+    public function archiveShouldBeUploaded($name)
     {
-        throw new PendingException();
+        PHPUnit_Framework_Assert::assertEquals($name, $this->lastUploadedArchiveName);
+    }
+
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function archiveUploaded($name)
+    {
+        $this->lastUploadedArchiveName = $name;
     }
 }

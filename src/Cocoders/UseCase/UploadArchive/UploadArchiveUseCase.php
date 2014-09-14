@@ -22,6 +22,10 @@ class UploadArchiveUseCase
      * @var \Cocoders\Archive\ArchiveRepository
      */
     private $archiveRepository;
+    /**
+     * @var UploadArchiveResponder[]
+     */
+    private $responders = [];
 
     public function __construct(
         UploadedArchiveFactory $uploadedArchiveFactory,
@@ -32,6 +36,11 @@ class UploadArchiveUseCase
         $this->uploadedArchiveFactory = $uploadedArchiveFactory;
         $this->uploadProviderRegistry = $uploadProviderRegistry;
         $this->archiveRepository = $archiveRepository;
+    }
+
+    public function addResponder(UploadArchiveResponder $responder)
+    {
+        $this->responders[] = $responder;
     }
 
     public function execute(UploadArchiveRequest $request)
@@ -51,8 +60,14 @@ class UploadArchiveUseCase
             $provider->upload($archiveFilePaths);
             $providers[] = $provider;
         }
+
         $uploadedArchive = $this->uploadedArchiveFactory->create($archive, $providers);
 
         $this->archiveRepository->add($uploadedArchive);
+
+        foreach ($this->responders as $responder) {
+            $responder->archiveUploaded($request->archiveName);
+        }
+
     }
 }

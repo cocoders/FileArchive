@@ -10,6 +10,7 @@ use Cocoders\Upload\UploadedArchive\UploadedArchiveFactory;
 use Cocoders\Upload\UploadProvider\UploadProvider;
 use Cocoders\Upload\UploadProvider\UploadProviderRegistry;
 use Cocoders\UseCase\UploadArchive\UploadArchiveRequest;
+use Cocoders\UseCase\UploadArchive\UploadArchiveResponder;
 use Cocoders\UseCase\UploadArchive\UploadArchiveUseCase;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -24,15 +25,6 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
     function let(
         UploadedArchiveFactory $uploadedArchiveFactory,
         UploadProviderRegistry $uploadProviderRegistry,
-        ArchiveRepository $archiveRepository
-    )
-    {
-
-        $this->beConstructedWith($uploadedArchiveFactory, $uploadProviderRegistry, $archiveRepository);
-    }
-
-    function it_pass_archive_files_to_providers(
-        UploadProviderRegistry $uploadProviderRegistry,
         ArchiveRepository $archiveRepository,
         Archive $archive,
         UploadProvider $provider,
@@ -44,30 +36,38 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         $uploadProviderRegistry->get('myProvider1')->willReturn($provider);
         $archive->getFiles()->willReturn([new ArchiveFile('/home/cocoders/aaa/a.jpg')]);
         $provider->upload(['/home/cocoders/aaa/a.jpg'])->shouldBeCalled();
+        $uploadedArchiveFactory->create($archive, [$provider])->willReturn($uploadedArchive);
+        $archiveRepository->add($uploadedArchive)->willReturn();
 
-        $uploadedArchiveFactory->create(Argument::cetera())->willReturn($uploadedArchive);
-        $archiveRepository->add(Argument::cetera())->willReturn();
+        $this->beConstructedWith($uploadedArchiveFactory, $uploadProviderRegistry, $archiveRepository);
+    }
+
+    function it_pass_archive_files_to_providers(
+        UploadProvider $provider
+    )
+    {
+        $provider->upload(['/home/cocoders/aaa/a.jpg'])->shouldBeCalled();
 
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
     }
 
     function it_saves_uploaded_archive_after_upload(
-        UploadProviderRegistry $uploadProviderRegistry,
         ArchiveRepository $archiveRepository,
-        Archive $archive,
-        UploadProvider $provider,
-        UploadedArchive $uploadedArchive,
-        UploadedArchiveFactory $uploadedArchiveFactory
+        UploadedArchive $uploadedArchive
     )
     {
-        $archiveRepository->findByName('myArchiveName')->willReturn($archive);
-        $uploadProviderRegistry->get('myProvider1')->willReturn($provider);
-        $archive->getFiles()->willReturn([new ArchiveFile('/home/cocoders/aaa/a.jpg')]);
-        $provider->upload(['/home/cocoders/aaa/a.jpg'])->willReturn();
-
-        $uploadedArchiveFactory->create($archive, [$provider])->willReturn($uploadedArchive);
         $archiveRepository->add($uploadedArchive)->shouldBeCalled();
 
+        $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
+    }
+
+    function it_notify_responders(
+        UploadArchiveResponder $responder
+    )
+    {
+        $this->addResponder($responder);
+
+        $responder->archiveUploaded('myArchiveName')->shouldBeCalled();
 
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
     }
