@@ -30,7 +30,7 @@ class ArchiveListUseCase implements ResponderAware
     }
 
     /**
-     * @param $archives
+     * @param \Cocoders\Archive\Archive[] $archives
      * @return array
      */
     private function fetchArchiveItems($archives)
