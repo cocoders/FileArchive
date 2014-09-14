@@ -73,6 +73,9 @@ class UploadArchiveUseCase implements ResponderAware
     private function archiveNotFound($archiveName)
     {
         foreach ($this->responders as $responder) {
+            /**
+             * @var UploadArchiveResponder $responder
+             */
             $responder->archiveNotFound($archiveName);
         }
     }
@@ -84,6 +87,9 @@ class UploadArchiveUseCase implements ResponderAware
     private function archiveUploaded($archiveName)
     {
         foreach ($this->responders as $responder) {
+            /**
+             * @var UploadArchiveResponder $responder
+             */
             $responder->archiveUploaded($archiveName);
         }
     }
