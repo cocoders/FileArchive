@@ -6,9 +6,13 @@ use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
 use Cocoders\Upload\UploadedArchive\UploadedArchiveFactory;
 use Cocoders\Upload\UploadProvider\UploadProviderRegistry;
+use Cocoders\UseCase\ResponderAware;
+use Cocoders\UseCase\ResponderAwareBehavior;
 
-class UploadArchiveUseCase
+class UploadArchiveUseCase implements ResponderAware
 {
+    use ResponderAwareBehavior;
+
     /**
      * @var \Cocoders\Upload\UploadedArchive\UploadedArchiveFactory
      */
@@ -21,10 +25,6 @@ class UploadArchiveUseCase
      * @var \Cocoders\Archive\ArchiveRepository
      */
     private $archiveRepository;
-    /**
-     * @var UploadArchiveResponder[]
-     */
-    private $responders = [];
 
     public function __construct(
         UploadedArchiveFactory $uploadedArchiveFactory,
@@ -35,11 +35,6 @@ class UploadArchiveUseCase
         $this->uploadedArchiveFactory = $uploadedArchiveFactory;
         $this->uploadProviderRegistry = $uploadProviderRegistry;
         $this->archiveRepository = $archiveRepository;
-    }
-
-    public function addResponder(UploadArchiveResponder $responder)
-    {
-        $this->responders[] = $responder;
     }
 
     public function execute(UploadArchiveRequest $request)

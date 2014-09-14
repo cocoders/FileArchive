@@ -2,13 +2,18 @@
 
 namespace Cocoders\UseCase\CreateArchive;
 
+use Cocoders\Archive\Archive;
 use Cocoders\Archive\ArchiveFactory;
 use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
 use Cocoders\FileSource\FileSourceRegistry;
+use Cocoders\UseCase\ResponderAware;
+use Cocoders\UseCase\ResponderAwareBehavior;
 
-class CreateArchiveUseCase
+class CreateArchiveUseCase implements ResponderAware
 {
+    use ResponderAwareBehavior;
+
     /**
      * @var \Cocoders\FileSource\FileSourceRegistry
      */
@@ -24,21 +29,11 @@ class CreateArchiveUseCase
      */
     private $archiveRepository;
 
-    /**
-     * @var CreateArchiveResponder[]
-     */
-    private $responders = [];
-
     public function __construct(FileSourceRegistry $fileSourceRegistry, ArchiveFactory $archiveFactory, ArchiveRepository $archiveRepository)
     {
         $this->fileSourceRegistry = $fileSourceRegistry;
         $this->archiveFactory = $archiveFactory;
         $this->archiveRepository = $archiveRepository;
-    }
-
-    public function addResponder(CreateArchiveResponder $responder)
-    {
-        $this->responders[] = $responder;
     }
 
     public function execute(CreateArchiveRequest $request)
@@ -54,7 +49,18 @@ class CreateArchiveUseCase
         $archive = $this->archiveFactory->create($request->archiveName, $archiveFiles);
         $this->archiveRepository->add($archive);
 
+        $this->archiveCreated($archive);
+    }
+
+    /**
+     * @param $archive
+     */
+    private function archiveCreated(Archive $archive)
+    {
         foreach ($this->responders as $responder) {
+            /**
+             * @var CreateArchiveResponder $responder
+             */
             $responder->archiveCreated($archive->getName());
         }
     }
