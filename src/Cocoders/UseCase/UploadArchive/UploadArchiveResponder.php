@@ -2,7 +2,9 @@
 
 namespace Cocoders\UseCase\UploadArchive;
 
-interface UploadArchiveResponder
+use Cocoders\UseCase\Responder;
+
+interface UploadArchiveResponder extends Responder
 {
     /**
      * @param string $name

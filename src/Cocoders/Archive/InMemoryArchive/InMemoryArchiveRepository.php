@@ -25,4 +25,9 @@ class InMemoryArchiveRepository implements ArchiveRepository
 
         return null;
     }
+
+    public function findAll()
+    {
+        return $this->archives;
+    }
 }

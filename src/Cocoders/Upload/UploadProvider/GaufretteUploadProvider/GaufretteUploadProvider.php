@@ -34,7 +34,7 @@ class GaufretteUploadProvider implements UploadProvider
 
     /**
      * @param $paths
-     * @return array
+     * @return string
      */
     private function fetchRootPath($paths)
     {
@@ -49,8 +49,8 @@ class GaufretteUploadProvider implements UploadProvider
     }
 
     /**
-     * @param $name
-     * @param $rootParent
+     * @param string $name
+     * @param string $rootParent
      * @param $path
      * @return string
      */

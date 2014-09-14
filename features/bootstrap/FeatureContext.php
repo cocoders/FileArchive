@@ -7,6 +7,9 @@ use Cocoders\Archive\InMemoryArchive\InMemoryArchiveRepository;
 use Cocoders\Upload\UploadedArchive\InMemoryUploadedArchive\InMemoryUploadedArchiveFactory;
 use Cocoders\Upload\UploadProvider\DummyUploadProvider\DummyUploadProvider;
 use Cocoders\Upload\UploadProvider\InMemoryUploadProvider\InMemoryUploadProvider;
+use Cocoders\UseCase\ArchiveList\ArchiveListResponder;
+use Cocoders\UseCase\ArchiveList\ArchiveListResponse;
+use Cocoders\UseCase\ArchiveList\ArchiveListUseCase;
 use Cocoders\UseCase\CreateArchive\CreateArchiveRequest;
 use Cocoders\UseCase\CreateArchive\CreateArchiveUseCase;
 use Cocoders\FileSource\DummyFileSource\DummyFileSource;
@@ -15,7 +18,7 @@ use Cocoders\UseCase\UploadArchive\UploadArchiveRequest;
 use Cocoders\UseCase\UploadArchive\UploadArchiveResponder;
 use Cocoders\UseCase\UploadArchive\UploadArchiveUseCase;
 
-class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
+class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder, ArchiveListResponder
 {
     public function __construct()
     {
@@ -25,6 +28,9 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
         $this->archiveFactory = new InMemoryArchiveFactory();
         $this->uploadedArchiveFactory = new InMemoryUploadedArchiveFactory();
         $this->uploadProvidersRegistry = new InMemoryUploadProvider();
+        $this->archiveListUseCase = new ArchiveListUseCase(
+            $this->archiveRepository
+        );
         $this->createArchiveUseCase = new CreateArchiveUseCase(
             $this->fileSourceRegistry,
             $this->archiveFactory,
@@ -36,6 +42,7 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
             $this->archiveRepository
         );
         $this->uploadArchiveUseCase->addResponder($this);
+        $this->archiveListUseCase->addResponder($this);
     }
 
     /**
@@ -72,6 +79,7 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
 
     /**
      * @Given There is :arg1 archive
+     * @Given there is :arg1 archive
      */
     public function thereIsArchive($archiveName)
     {
@@ -117,6 +125,40 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
     }
 
     /**
+     * @Given there are such archives:
+     */
+    public function thereIsSuchArchives(TableNode $table)
+    {
+        foreach ($table->getHash() as $row) {
+            $this->thereIsArchive($row['name']);
+        }
+    }
+
+    /**
+     * @When I am listing archives
+     */
+    public function iAmListingArchives()
+    {
+        $this->archiveListUseCase->execute();
+    }
+
+    /**
+     * @Then I should see such archives:
+     */
+    public function iShouldSeeSuchArchives(TableNode $table)
+    {
+        foreach ($table->getHash() as $row) {
+            $found = array_filter($this->lastArchiveList->items, function ($item) use ($row) {
+                return $item->archiveName == $row['name'] && $item->uploaded == (boolean) $row['uploaded'];
+            });
+
+            if (!$found) {
+                throw new \Exception(sprintf('Archive %s is not found', $row['name']));
+            }
+        }
+    }
+
+    /**
      * @param string $name
      * @return void
      */
@@ -132,5 +174,10 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
     public function archiveNotFound($name)
     {
         throw new \LogicException(sprintf('%s archive not found', $name));
+    }
+
+    public function archiveListFechted(ArchiveListResponse $archiveListResponse)
+    {
+        $this->lastArchiveList = $archiveListResponse;
     }
 }

@@ -31,4 +31,16 @@ class InMemoryArchiveRepositorySpec extends ObjectBehavior
     {
         $this->findByName('archive')->shouldReturn(null);
     }
+
+    function it_list_all_archives(Archive $archive1, Archive $archive2)
+    {
+        $this->add($archive1);
+        $this->add($archive2);
+
+        $this->findAll()->shouldBe([
+            $archive1,
+            $archive2
+        ]);
+    }
 }
+

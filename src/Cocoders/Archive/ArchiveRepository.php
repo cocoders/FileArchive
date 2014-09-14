@@ -15,4 +15,9 @@ interface ArchiveRepository
      * @return Archive|null
      */
     public function findByName($name);
+
+    /**
+     * @return Archive[]
+     */
+    public function findAll();
 }
