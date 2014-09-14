@@ -12,7 +12,7 @@ https://trello.com/b/MJ1P6DuI/filearchive
 ## Continuous Integration ##
 [![Build Status](https://api.shippable.com/projects/540e7d3b3479c5ea8f9ed3d1/badge?branchName=master)](https://app.shippable.com/projects/540e7d3b3479c5ea8f9ed3d1)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cocoders/FileArchive/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cocoders/FileArchive/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/bac93930-f75a-4ffb-8876-d488dd866e7f/mini.png)](https://insight.sensiolabs.com/projects/bac93930-f75a-4ffb-8876-d488dd866e7f)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/8bd72fa9-f985-444a-95a1-5cbda5c894e7/mini.png)](https://insight.sensiolabs.com/projects/8bd72fa9-f985-444a-95a1-5cbda5c894e7)
 
 ## Team ##
 Zespół "Cocoders & friends" w którego skład wchodzi firma "[Cocoders](http://www.cocoders.com)" wraz z przyjaciółmi:
