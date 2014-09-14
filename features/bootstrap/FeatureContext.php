@@ -125,7 +125,7 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder,
     }
 
     /**
-     * @Given there is such archives:
+     * @Given there are such archives:
      */
     public function thereIsSuchArchives(TableNode $table)
     {

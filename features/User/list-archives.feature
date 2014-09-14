@@ -4,7 +4,7 @@ Feature: Creating archive
   I need to list archives
 
   Background:
-    Given there is such archives:
+    Given there are such archives:
       | name   |
       | first  |
       | second |
