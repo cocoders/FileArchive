@@ -35,7 +35,7 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         $archiveRepository->findByName('myArchiveName')->willReturn($archive);
         $uploadProviderRegistry->get('myProvider1')->willReturn($provider);
         $archive->getFiles()->willReturn([new ArchiveFile('/home/cocoders/aaa/a.jpg')]);
-        $provider->upload(['/home/cocoders/aaa/a.jpg'])->shouldBeCalled();
+        $provider->upload(['/home/cocoders/aaa/a.jpg'])->willReturn();
         $uploadedArchiveFactory->create($archive, [$provider])->willReturn($uploadedArchive);
         $archiveRepository->add($uploadedArchive)->willReturn();
 
@@ -61,13 +61,26 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
     }
 
-    function it_notify_responders(
+    function it_notify_responders_when_archive_is_uploaded(
         UploadArchiveResponder $responder
     )
     {
         $this->addResponder($responder);
 
         $responder->archiveUploaded('myArchiveName')->shouldBeCalled();
+
+        $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
+    }
+
+    function it_notify_responders_when_archive_is_not_found(
+        ArchiveRepository $archiveRepository,
+        UploadArchiveResponder $responder
+    )
+    {
+        $archiveRepository->findByName('myArchiveName')->willReturn(null);
+        $this->addResponder($responder);
+
+        $responder->archiveNotFound('myArchiveName')->shouldBeCalled();
 
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
     }

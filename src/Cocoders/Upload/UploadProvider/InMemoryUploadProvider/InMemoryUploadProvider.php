@@ -16,10 +16,15 @@ class InMemoryUploadProvider implements UploadProviderRegistry
 
     public function get($name)
     {
-        if (!isset($this->uploadProviders[$name])) {
-            throw new \InvalidArgumentException(sprintf('Upload provider with name %s is not registered', $name));
+        if ($this->hasUploadProvider($name)) {
+            return $this->uploadProviders[$name];
         }
 
-        return $this->uploadProviders[$name];
+        throw new \InvalidArgumentException(sprintf('Upload provider with name %s is not registered', $name));
+    }
+
+    private function hasUploadProvider($name)
+    {
+        return isset($this->uploadProviders[$name]);
     }
 }

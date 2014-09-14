@@ -46,6 +46,11 @@ class UploadArchiveUseCase
     public function execute(UploadArchiveRequest $request)
     {
         $archive = $this->archiveRepository->findByName($request->archiveName);
+        if (!$archive) {
+            $this->archiveNotFound($request->archiveName);
+
+            return;
+        }
 
         $archiveFilePaths = array_map(
             function (ArchiveFile $archiveFile) {
@@ -65,9 +70,26 @@ class UploadArchiveUseCase
 
         $this->archiveRepository->add($uploadedArchive);
 
-        foreach ($this->responders as $responder) {
-            $responder->archiveUploaded($request->archiveName);
-        }
+        $this->archiveUploaded($request->archiveName);
+    }
 
+    /**
+     * @param string
+     */
+    private function archiveNotFound($archiveName)
+    {
+        foreach ($this->responders as $responder) {
+            $responder->archiveNotFound($archiveName);
+        }
+    }
+
+    /**
+     * @param string
+     */
+    private function archiveUploaded($archiveName)
+    {
+        foreach ($this->responders as $responder) {
+            $responder->archiveUploaded($archiveName);
+        }
     }
 }

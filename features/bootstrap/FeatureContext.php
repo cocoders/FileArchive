@@ -124,4 +124,13 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
     {
         $this->lastUploadedArchiveName = $name;
     }
+
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function archiveNotFound($name)
+    {
+        throw new \LogicException(sprintf('%s archive not found', $name));
+    }
 }

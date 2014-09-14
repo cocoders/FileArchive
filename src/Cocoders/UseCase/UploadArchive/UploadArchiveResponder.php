@@ -9,4 +9,10 @@ interface UploadArchiveResponder
      * @return void
      */
     public function archiveUploaded($name);
+
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function archiveNotFound($name);
 }
