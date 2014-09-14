@@ -51,7 +51,7 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
         );
 
         $dummyFileSource = new DummyFileSource($paths);
-        $this->fileSourceRegistry->register('dummy', $dummyFileSource);
+        $this->fileSourceRegistry->registerFileSource('dummy', $dummyFileSource);
     }
 
     /**
@@ -80,7 +80,7 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
             '/home/cocoders/bbb/b.jpg',
             '/home/cocoders/bbb/b.wav'
         ]);
-        $this->fileSourceRegistry->register('dummy', $dummyFileSource);
+        $this->fileSourceRegistry->registerFileSource('dummy', $dummyFileSource);
 
         $this->iCreateArchiveFromDirectoryUsingFilesource($archiveName, '/home/cocoders/aaa/', 'dummy');
     }
@@ -90,7 +90,7 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder
      */
     public function iHaveConfiguredMyprovider()
     {
-        $this->uploadProvidersRegistry->register('myProvider', new DummyUploadProvider());
+        $this->uploadProvidersRegistry->registerUploadProvider('myProvider', new DummyUploadProvider());
     }
 
     /**

@@ -16,14 +16,14 @@ class InMemoryUploadProviderSpec extends ObjectBehavior
 {
     function it_allows_to_register_upload_provider(UploadProvider $newProvider)
     {
-        $this->register('newProvider', $newProvider);
+        $this->registerUploadProvider('newProvider', $newProvider);
 
         $this->get('newProvider')->shouldBe($newProvider);
     }
 
     function it_does_not_allow_to_get_not_registered_upload_provider(UploadProvider $uploadProvider)
     {
-        $this->register('newProvider', $uploadProvider);
+        $this->registerUploadProvider('newProvider', $uploadProvider);
 
         $this->shouldThrow('\InvalidArgumentException')->duringGet('dummyProvider');
     }

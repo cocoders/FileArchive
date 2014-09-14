@@ -9,7 +9,7 @@ class InMemoryUploadProvider implements UploadProviderRegistry
 {
     private $uploadProviders = [];
 
-    public function register($name, UploadProvider $uploadProvider)
+    public function registerUploadProvider($name, UploadProvider $uploadProvider)
     {
         $this->uploadProviders[$name] = $uploadProvider;
     }

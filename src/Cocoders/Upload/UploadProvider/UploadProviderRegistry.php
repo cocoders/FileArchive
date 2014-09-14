@@ -17,5 +17,5 @@ interface UploadProviderRegistry
      * @param UploadProvider $provider
      * @return void
      */
-    public function register($name, UploadProvider $provider);
+    public function registerUploadProvider($name, UploadProvider $provider);
 }

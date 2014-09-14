@@ -16,8 +16,8 @@ class InMemoryFileSourceRegistrySpec extends ObjectBehavior
 {
     function it_allows_to_register_file_source(FileSource $newFileSource, FileSource $dummyFileSource)
     {
-        $this->register('newFileSource', $newFileSource);
-        $this->register('dummyFileSource', $dummyFileSource);
+        $this->registerFileSource('newFileSource', $newFileSource);
+        $this->registerFileSource('dummyFileSource', $dummyFileSource);
 
         $this->get('newFileSource')->shouldBe($newFileSource);
         $this->get('dummyFileSource')->shouldBe($dummyFileSource);
@@ -25,7 +25,7 @@ class InMemoryFileSourceRegistrySpec extends ObjectBehavior
 
     function it_does_not_allow_to_get_not_registered_file_source(FileSource $newFileSource)
     {
-        $this->register('newFileSource', $newFileSource);
+        $this->registerFileSource('newFileSource', $newFileSource);
 
         $this->shouldThrow('\InvalidArgumentException')->duringGet('dummyFileSource');
     }
