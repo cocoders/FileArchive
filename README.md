@@ -2,12 +2,11 @@
 
 Projekt ma slużyć do archiwizowania różnego rodzaju plików (np. zdjęć z eventów phpers). Archiwna powinny powstawać i być
 odczytywane z różnych serwisów (np. lokalny system plików serwera, (s)ftp, amazon storage, bit torrent sync).
+Projekt to rodzaj "proof of concept" który ma ukazać że frameworki i bazy danych to tylko detale implementacyjne.
 
 
 ## ScrumBoard ##
 https://trello.com/b/MJ1P6DuI/filearchive
-
-## [Dokumentacja](docs/index.md) ##
 
 ## Continuous Integration ##
 [![Build Status](https://api.shippable.com/projects/540e7d3b3479c5ea8f9ed3d1/badge?branchName=master)](https://app.shippable.com/projects/540e7d3b3479c5ea8f9ed3d1)
@@ -24,3 +23,8 @@ Zespół "Cocoders & friends" w którego skład wchodzi firma "[Cocoders](http:/
 * Kamil "[@pomek](http://github.com/pomek)" Piechaczek, Bytom
 
 Zespół reprezentuje społeczność PHPers Trójmiasto.
+
+## [Dokumentacja](docs/index.md) ##
+
+Utworzyliśmy też przykład użycia aplikacji w frameworku Symfony2 w odzielnym repozytorium
+(FileSystemSymfony)[https://github.com/cocoders/FileArchiveSymfony]
