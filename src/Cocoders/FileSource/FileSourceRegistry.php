@@ -15,5 +15,5 @@ interface FileSourceRegistry
      * @param FileSource $fileSource
      * @return void
      */
-    public function register($name, FileSource $fileSource);
+    public function registerFileSource($name, FileSource $fileSource);
 }

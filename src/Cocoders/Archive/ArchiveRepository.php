@@ -12,7 +12,7 @@ interface ArchiveRepository
 
     /**
      * @param string $name
-     * @return Archive[]
+     * @return Archive|null
      */
     public function findByName($name);
 }

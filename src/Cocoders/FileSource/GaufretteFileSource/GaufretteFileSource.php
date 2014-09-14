@@ -1,6 +1,6 @@
 <?php
 
-namespace Cocoders\GaufretteFileSource;
+namespace Cocoders\FileSource\GaufretteFileSource;
 
 use Cocoders\FileSource\File;
 use Cocoders\FileSource\FileSource;

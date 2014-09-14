@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Cocoders\GaufretteFileSource;
+namespace spec\Cocoders\FileSource\GaufretteFileSource;
 
 use Cocoders\FileSource\File;
 use Gaufrette\Filesystem;

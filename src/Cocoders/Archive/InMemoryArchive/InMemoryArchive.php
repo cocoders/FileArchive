@@ -17,6 +17,9 @@ class InMemoryArchive implements Archive
      */
     private $files;
 
+    /**
+     * @param string $name
+     */
     public function __construct($name, array $archiveFiles)
     {
         $this->name = $name;
@@ -26,5 +29,10 @@ class InMemoryArchive implements Archive
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getFiles()
+    {
+        return $this->files;
     }
 }

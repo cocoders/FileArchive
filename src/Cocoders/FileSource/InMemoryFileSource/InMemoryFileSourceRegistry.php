@@ -12,7 +12,7 @@ class InMemoryFileSourceRegistry implements FileSourceRegistry
      */
     private $fileSources = [];
 
-    public function register($name, FileSource $fileSource)
+    public function registerFileSource($name, FileSource $fileSource)
     {
         $this->fileSources[$name] = $fileSource;
     }
