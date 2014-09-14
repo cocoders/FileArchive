@@ -14,3 +14,4 @@ interface UploadedArchiveFactory
      */
     public function create(Archive $archive, array $providers);
 } 
+

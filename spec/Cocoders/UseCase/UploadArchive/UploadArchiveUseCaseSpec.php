@@ -35,7 +35,7 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         $archiveRepository->findByName('myArchiveName')->willReturn($archive);
         $uploadProviderRegistry->get('myProvider1')->willReturn($provider);
         $archive->getFiles()->willReturn([new ArchiveFile('/home/cocoders/aaa/a.jpg')]);
-        $provider->upload(['/home/cocoders/aaa/a.jpg'])->willReturn();
+        $provider->upload('myArchiveName', ['/home/cocoders/aaa/a.jpg'])->willReturn();
         $uploadedArchiveFactory->create($archive, [$provider])->willReturn($uploadedArchive);
         $archiveRepository->add($uploadedArchive)->willReturn();
 
@@ -46,7 +46,7 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         UploadProvider $provider
     )
     {
-        $provider->upload(['/home/cocoders/aaa/a.jpg'])->shouldBeCalled();
+        $provider->upload('myArchiveName', ['/home/cocoders/aaa/a.jpg'])->shouldBeCalled();
 
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
     }

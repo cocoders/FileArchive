@@ -61,12 +61,11 @@ class UploadArchiveUseCase
         $providers = [];
         foreach ($request->providersNames as $providerName) {
             $provider = $this->uploadProviderRegistry->get($providerName);
-            $provider->upload($archiveFilePaths);
+            $provider->upload($request->archiveName, $archiveFilePaths);
             $providers[] = $provider;
         }
 
         $uploadedArchive = $this->uploadedArchiveFactory->create($archive, $providers);
-
         $this->archiveRepository->add($uploadedArchive);
 
         $this->archiveUploaded($request->archiveName);

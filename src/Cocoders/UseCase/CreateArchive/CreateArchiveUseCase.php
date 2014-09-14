@@ -45,7 +45,7 @@ class CreateArchiveUseCase
     {
         $fileSource = $this->fileSourceRegistry->get($request->fileSource);
         $files = $fileSource->getFiles($request->path);
-        //@todo move to new transformer object (from fileSourceFile to ArchiveFile)
+
         $archiveFiles = [];
         foreach ($files as $file) {
             $archiveFiles[] = new ArchiveFile($file->path);
