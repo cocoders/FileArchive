@@ -12,4 +12,4 @@ class ArchiveListItem
         $this->archiveName = $archiveName;
         $this->uploaded = $uploaded;
     }
-} 
+}
