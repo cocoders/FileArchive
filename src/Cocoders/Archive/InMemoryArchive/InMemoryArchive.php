@@ -17,6 +17,9 @@ class InMemoryArchive implements Archive
      */
     private $files;
 
+    /**
+     * @param string $name
+     */
     public function __construct($name, array $archiveFiles)
     {
         $this->name = $name;

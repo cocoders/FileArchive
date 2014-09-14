@@ -4,7 +4,6 @@ namespace Cocoders\UseCase\UploadArchive;
 
 use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
-use Cocoders\Upload\UploadedArchive\InMemoryUploadedArchive\InMemoryUploadedArchive;
 use Cocoders\Upload\UploadedArchive\UploadedArchiveFactory;
 use Cocoders\Upload\UploadProvider\UploadProviderRegistry;
 
@@ -75,6 +74,7 @@ class UploadArchiveUseCase
 
     /**
      * @param string
+     * @param string $archiveName
      */
     private function archiveNotFound($archiveName)
     {
@@ -85,6 +85,7 @@ class UploadArchiveUseCase
 
     /**
      * @param string
+     * @param string $archiveName
      */
     private function archiveUploaded($archiveName)
     {

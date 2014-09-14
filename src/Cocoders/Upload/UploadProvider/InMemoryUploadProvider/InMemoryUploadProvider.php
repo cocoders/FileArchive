@@ -23,6 +23,9 @@ class InMemoryUploadProvider implements UploadProviderRegistry
         throw new \InvalidArgumentException(sprintf('Upload provider with name %s is not registered', $name));
     }
 
+    /**
+     * @param string $name
+     */
     private function hasUploadProvider($name)
     {
         return isset($this->uploadProviders[$name]);
