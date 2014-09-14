@@ -6,6 +6,7 @@ use Cocoders\Archive\Archive;
 use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
 use Cocoders\Upload\UploadedArchive\UploadedArchive;
+use Cocoders\Upload\UploadedArchive\UploadedArchiveFactory;
 use Cocoders\Upload\UploadProvider\UploadProvider;
 use Cocoders\Upload\UploadProvider\UploadProviderRegistry;
 use Cocoders\UseCase\UploadArchive\UploadArchiveRequest;
@@ -20,22 +21,32 @@ use Prophecy\Argument;
  */
 class UploadArchiveUseCaseSpec extends ObjectBehavior
 {
-    function let(UploadProviderRegistry $uploadProviderRegistry, ArchiveRepository $archiveRepository)
+    function let(
+        UploadedArchiveFactory $uploadedArchiveFactory,
+        UploadProviderRegistry $uploadProviderRegistry,
+        ArchiveRepository $archiveRepository
+    )
     {
-        $this->beConstructedWith($uploadProviderRegistry, $archiveRepository);
+
+        $this->beConstructedWith($uploadedArchiveFactory, $uploadProviderRegistry, $archiveRepository);
     }
 
     function it_pass_archive_files_to_providers(
         UploadProviderRegistry $uploadProviderRegistry,
         ArchiveRepository $archiveRepository,
         Archive $archive,
-        UploadProvider $provider
+        UploadProvider $provider,
+        UploadedArchive $uploadedArchive,
+        UploadedArchiveFactory $uploadedArchiveFactory
     )
     {
         $archiveRepository->findByName('myArchiveName')->willReturn($archive);
         $uploadProviderRegistry->get('myProvider1')->willReturn($provider);
         $archive->getFiles()->willReturn([new ArchiveFile('/home/cocoders/aaa/a.jpg')]);
         $provider->upload(['/home/cocoders/aaa/a.jpg'])->shouldBeCalled();
+
+        $uploadedArchiveFactory->create(Argument::cetera())->willReturn($uploadedArchive);
+        $archiveRepository->add(Argument::cetera())->willReturn();
 
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
     }
@@ -44,16 +55,18 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         UploadProviderRegistry $uploadProviderRegistry,
         ArchiveRepository $archiveRepository,
         Archive $archive,
-        UploadProvider $provider
+        UploadProvider $provider,
+        UploadedArchive $uploadedArchive,
+        UploadedArchiveFactory $uploadedArchiveFactory
     )
     {
         $archiveRepository->findByName('myArchiveName')->willReturn($archive);
         $uploadProviderRegistry->get('myProvider1')->willReturn($provider);
         $archive->getFiles()->willReturn([new ArchiveFile('/home/cocoders/aaa/a.jpg')]);
         $provider->upload(['/home/cocoders/aaa/a.jpg'])->willReturn();
-        $archiveRepository->add(Argument::that(function (UploadedArchive $archive) use ($provider) {
-                    return $archive->getProviders() == [$provider->getWrappedObject()];
-                }))->shouldBeCalled();
+
+        $uploadedArchiveFactory->create($archive, [$provider])->willReturn($uploadedArchive);
+        $archiveRepository->add($uploadedArchive)->shouldBeCalled();
 
 
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
