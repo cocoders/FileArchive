@@ -27,4 +27,9 @@ class InMemoryArchive implements Archive
     {
         return $this->name;
     }
+
+    public function getFiles()
+    {
+        return $this->files;
+    }
 }

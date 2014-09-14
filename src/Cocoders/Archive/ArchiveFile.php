@@ -16,4 +16,12 @@ class ArchiveFile
     {
         $this->path = $path;
     }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
 }

@@ -4,10 +4,14 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
 use Cocoders\Archive\InMemoryArchive\InMemoryArchiveFactory;
 use Cocoders\Archive\InMemoryArchive\InMemoryArchiveRepository;
+use Cocoders\Upload\UploadProvider\DummyUploadProvider\DummyUploadProvider;
+use Cocoders\Upload\UploadProvider\InMemoryUploadProvider\InMemoryUploadProvider;
 use Cocoders\UseCase\CreateArchive\CreateArchiveRequest;
 use Cocoders\UseCase\CreateArchive\CreateArchiveUseCase;
 use Cocoders\FileSource\DummyFileSource\DummyFileSource;
 use Cocoders\FileSource\InMemoryFileSource\InMemoryFileSourceRegistry;
+use Cocoders\UseCase\UploadArchive\UploadArchiveRequest;
+use Cocoders\UseCase\UploadArchive\UploadArchiveUseCase;
 
 class FeatureContext implements SnippetAcceptingContext
 {
@@ -16,6 +20,16 @@ class FeatureContext implements SnippetAcceptingContext
         $this->fileSourceRegistry = new InMemoryFileSourceRegistry();
         $this->archiveRepository = new InMemoryArchiveRepository();
         $this->archiveFactory = new InMemoryArchiveFactory();
+        $this->uploadProvidersRegistry = new InMemoryUploadProvider();
+        $this->createArchiveUseCase = new CreateArchiveUseCase(
+            $this->fileSourceRegistry,
+            $this->archiveFactory,
+            $this->archiveRepository
+        );
+        $this->uploadArchiveUseCase = new UploadArchiveUseCase(
+            $this->uploadProvidersRegistry,
+            $this->archiveRepository
+        );
     }
 
     /**
@@ -39,15 +53,7 @@ class FeatureContext implements SnippetAcceptingContext
      */
     public function iCreateArchiveFromDirectoryUsingFilesource($archiveName, $path, $fileSourceName)
     {
-        $createArchiveRequest = new CreateArchiveRequest($fileSourceName, $archiveName, $path);
-
-        $createArchiveUseCase = new CreateArchiveUseCase(
-            $this->fileSourceRegistry,
-            $this->archiveFactory,
-            $this->archiveRepository
-        );
-
-        $createArchiveUseCase->execute($createArchiveRequest);
+        $this->createArchiveUseCase->execute(new CreateArchiveRequest($fileSourceName, $archiveName, $path));
     }
 
     /**
@@ -56,5 +62,51 @@ class FeatureContext implements SnippetAcceptingContext
     public function iShouldSeeArchiveOnTheArchivesList($name)
     {
         PHPUnit_Framework_Assert::assertEquals($name, $this->archiveRepository->findByName($name)->getName());
+    }
+
+    /**
+     * @Given There is :arg1 archive
+     */
+    public function thereIsArchive($archiveName)
+    {
+        $dummyFileSource = new DummyFileSource(            [
+            '/home/cocoders/aaa/a.jpg',
+            '/home/cocoders/bbb/b.jpg',
+            '/home/cocoders/bbb/b.wav'
+        ]);
+        $this->fileSourceRegistry->register('dummy', $dummyFileSource);
+
+        $this->iCreateArchiveFromDirectoryUsingFilesource($archiveName, '/home/cocoders/aaa/', 'dummy');
+    }
+
+    /**
+     * @Given I have configured myProvider
+     */
+    public function iHaveConfiguredMyprovider()
+    {
+        $this->uploadProvidersRegistry->register('myProvider', new DummyUploadProvider());
+    }
+
+    /**
+     * @When I upload :arg1 archive using providers:
+     */
+    public function iUploadArchiveUsingProviders($archiveName, TableNode $table)
+    {
+        $providersNames = array_map(
+            function ($row) {
+                return $row['name'];
+            },
+            $table->getHash()
+        );
+
+        $this->uploadArchiveUseCase->execute(new UploadArchiveRequest($archiveName, $providersNames));
+    }
+
+    /**
+     * @Then :arg1 archive should be uploaded
+     */
+    public function archiveShouldBeUploaded($arg1)
+    {
+        throw new PendingException();
     }
 }
