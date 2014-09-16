@@ -5,6 +5,7 @@ namespace Cocoders\UseCase\UploadArchive;
 use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
 use Cocoders\Upload\UploadedArchive\UploadedArchiveFactory;
+use Cocoders\Upload\UploadedArchive\UploadedArchiveRepository;
 use Cocoders\Upload\UploadProvider\UploadProviderRegistry;
 use Cocoders\UseCase\ResponderAware;
 use Cocoders\UseCase\ResponderAwareBehavior;
@@ -25,16 +26,22 @@ class UploadArchiveUseCase implements ResponderAware
      * @var \Cocoders\Archive\ArchiveRepository
      */
     private $archiveRepository;
+    /**
+     * @var \Cocoders\Upload\UploadedArchive\UploadedArchiveRepository
+     */
+    private $uploadedArchiveRepository;
 
     public function __construct(
         UploadedArchiveFactory $uploadedArchiveFactory,
         UploadProviderRegistry $uploadProviderRegistry,
-        ArchiveRepository $archiveRepository
+        ArchiveRepository $archiveRepository,
+        UploadedArchiveRepository $uploadedArchiveRepository
     )
     {
         $this->uploadedArchiveFactory = $uploadedArchiveFactory;
         $this->uploadProviderRegistry = $uploadProviderRegistry;
         $this->archiveRepository = $archiveRepository;
+        $this->uploadedArchiveRepository = $uploadedArchiveRepository;
     }
 
     public function execute(UploadArchiveRequest $request)
@@ -60,8 +67,10 @@ class UploadArchiveUseCase implements ResponderAware
             $providers[] = $provider;
         }
 
+        $archive->upload();
         $uploadedArchive = $this->uploadedArchiveFactory->create($archive, $providers);
-        $this->archiveRepository->add($uploadedArchive);
+        $this->uploadedArchiveRepository->add($uploadedArchive);
+        $this->archiveRepository->add($archive);
 
         $this->archiveUploaded($request->archiveName);
     }

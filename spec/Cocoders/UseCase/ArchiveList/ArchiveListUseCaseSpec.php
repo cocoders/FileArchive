@@ -19,7 +19,7 @@ class ArchiveListUseCaseSpec extends ObjectBehavior
     function it_list_archives(
         ArchiveRepository $archiveRepository,
         Archive $archive,
-        UploadedArchive $uploadedArchive
+        Archive $uploadedArchive
     )
     {
         $archive->getName()->willReturn('first');

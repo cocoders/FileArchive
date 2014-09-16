@@ -5,6 +5,7 @@ use Behat\Gherkin\Node\TableNode;
 use Cocoders\Archive\InMemoryArchive\InMemoryArchiveFactory;
 use Cocoders\Archive\InMemoryArchive\InMemoryArchiveRepository;
 use Cocoders\Upload\UploadedArchive\InMemoryUploadedArchive\InMemoryUploadedArchiveFactory;
+use Cocoders\Upload\UploadedArchive\InMemoryUploadedArchive\InMemoryUploadedArchiveRepository;
 use Cocoders\Upload\UploadProvider\DummyUploadProvider\DummyUploadProvider;
 use Cocoders\Upload\UploadProvider\InMemoryUploadProvider\InMemoryUploadProvider;
 use Cocoders\UseCase\ArchiveList\ArchiveListResponder;
@@ -25,6 +26,7 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder,
         $this->lastUploadedArchiveName = null;
         $this->fileSourceRegistry = new InMemoryFileSourceRegistry();
         $this->archiveRepository = new InMemoryArchiveRepository();
+        $this->uploadedArchiveRepository = new InMemoryUploadedArchiveRepository();
         $this->archiveFactory = new InMemoryArchiveFactory();
         $this->uploadedArchiveFactory = new InMemoryUploadedArchiveFactory();
         $this->uploadProvidersRegistry = new InMemoryUploadProvider();
@@ -39,7 +41,8 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder,
         $this->uploadArchiveUseCase = new UploadArchiveUseCase(
             $this->uploadedArchiveFactory,
             $this->uploadProvidersRegistry,
-            $this->archiveRepository
+            $this->archiveRepository,
+            $this->uploadedArchiveRepository
         );
         $this->uploadArchiveUseCase->addResponder($this);
         $this->archiveListUseCase->addResponder($this);
