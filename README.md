@@ -27,4 +27,4 @@ Zespół reprezentuje społeczność PHPers Trójmiasto.
 ## [Dokumentacja](docs/index.md) ##
 
 Utworzyliśmy też przykład użycia aplikacji w frameworku Symfony2 w odzielnym repozytorium
-(FileSystemSymfony)[https://github.com/cocoders/FileArchiveSymfony]
+[FileSystemSymfony](https://github.com/cocoders/FileArchiveSymfony)
