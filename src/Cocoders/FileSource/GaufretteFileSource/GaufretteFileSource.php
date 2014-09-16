@@ -52,7 +52,7 @@ class GaufretteFileSource implements FileSource
      */
     private function createBaseDirectory($filePath)
     {
-        if (!is_dir(dirname($filePath))) {
+        if (!file_exists(dirname($filePath))) {
             mkdir(dirname($filePath), 0700, true);
         }
     }
