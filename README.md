@@ -29,7 +29,7 @@ Zespół reprezentuje społeczność PHPers Trójmiasto.
 Utworzyliśmy też przykład użycia aplikacji w frameworku Symfony2 w odzielnym repozytorium
 [FileSystemSymfony](https://github.com/cocoders/FileArchiveSymfony)
 
-## Features
+## W planach
 
 * Pokazanie użytkownikowi podpiętych do aplikacji kont
 * Zarządzanie kontami za pomocą wygodnego kreatora
