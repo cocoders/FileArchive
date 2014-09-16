@@ -18,6 +18,11 @@ class InMemoryArchive implements Archive
     private $files;
 
     /**
+     * @var bool
+     */
+    private $uploaded = false;
+
+    /**
      * @param string $name
      */
     public function __construct($name, array $archiveFiles)
@@ -34,5 +39,15 @@ class InMemoryArchive implements Archive
     public function getFiles()
     {
         return $this->files;
+    }
+
+    public function isUploaded()
+    {
+        return $this->uploaded;
+    }
+
+    public function upload()
+    {
+        $this->uploaded = true;
     }
 }

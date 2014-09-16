@@ -27,4 +27,11 @@ class InMemoryArchiveSpec extends ObjectBehavior
     {
         $this->getName()->shouldReturn('archive');
     }
+
+    function it_change_uploading_state_after_upload()
+    {
+        $this->isUploaded()->shouldBe(false);
+        $this->upload();
+        $this->isUploaded()->shouldBe(true);
+    }
 }

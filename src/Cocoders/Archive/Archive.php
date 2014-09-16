@@ -13,4 +13,14 @@ interface Archive
      * @return ArchiveFile[]
      */
     public function getFiles();
+
+    /**
+     * @return boolean
+     */
+    public function isUploaded();
+
+    /**
+     * @return void
+     */
+    public function upload();
 }

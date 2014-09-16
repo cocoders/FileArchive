@@ -79,7 +79,6 @@ class FeatureContext implements SnippetAcceptingContext, UploadArchiveResponder,
 
     /**
      * @Given There is :arg1 archive
-     * @Given there is :arg1 archive
      */
     public function thereIsArchive($archiveName)
     {
