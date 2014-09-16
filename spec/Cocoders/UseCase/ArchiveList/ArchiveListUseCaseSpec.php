@@ -19,11 +19,13 @@ class ArchiveListUseCaseSpec extends ObjectBehavior
     function it_list_archives(
         ArchiveRepository $archiveRepository,
         Archive $archive,
-        UploadedArchive $uploadedArchive
+        Archive $uploadedArchive
     )
     {
         $archive->getName()->willReturn('first');
+        $archive->isUploaded()->willReturn(false);
         $uploadedArchive->getName()->willReturn('second');
+        $uploadedArchive->isUploaded()->willReturn(true);
 
         $archiveRepository
             ->findAll()
@@ -41,11 +43,13 @@ class ArchiveListUseCaseSpec extends ObjectBehavior
         ArchiveListResponder $archiveListResponder,
         ArchiveRepository $archiveRepository,
         Archive $archive,
-        UploadedArchive $uploadedArchive
+        Archive $uploadedArchive
     )
     {
         $archive->getName()->willReturn('first');
+        $archive->isUploaded()->willReturn(false);
         $uploadedArchive->getName()->willReturn('second');
+        $uploadedArchive->isUploaded()->willReturn(true);
 
         $this->addResponder($archiveListResponder);
         $archiveRepository
