@@ -47,8 +47,13 @@ class CreateArchiveUseCase implements ResponderAware
         }
 
         $archive = $this->archiveFactory->create($request->archiveName, $archiveFiles);
-        $this->archiveRepository->add($archive);
 
+        if ($this->archiveRepository->findByName($request->archiveName)) {
+            $this->archiveAlreadyExists($archive);
+            return;
+        }
+
+        $this->archiveRepository->add($archive);
         $this->archiveCreated($archive);
     }
 
@@ -62,6 +67,19 @@ class CreateArchiveUseCase implements ResponderAware
              * @var CreateArchiveResponder $responder
              */
             $responder->archiveCreated($archive->getName());
+        }
+    }
+
+    /**
+     * @param $archive
+     */
+    private function archiveAlreadyExists(Archive $archive)
+    {
+        foreach ($this->responders as $responder) {
+            /**
+             * @var CreateArchiveResponder $responder
+             */
+            $responder->archiveAlreadyExists($archive->getName());
         }
     }
 }

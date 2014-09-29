@@ -23,55 +23,50 @@ class GaufretteFileSourceSpec extends ObjectBehavior
 
     function it_fetches_filesource_files_base_on_gaufrette_filesystem(Filesystem $filesystem)
     {
-        $filesystem->listKeys('/home/somekey')->willReturn([
+        $filesystem->listKeys('test')->willReturn([
             'keys' => [
-                '/home/somekey/aaa/test.txt',
-                '/home/somekey/aaa/test2.txt',
-                '/home/somekey/bbb/a.txt'
+                'test/aaa/z.txt',
+                'test/aaa/test2.txt',
+                'test.txt'
             ],
             'dirs' => [
-                '/home/somekey/aaa',
-                '/home/somekey/bbb'
+                'test/aaa'
             ]
         ]);
 
-        $filesystem->read('/home/somekey/aaa/test.txt')->willReturn('Some content');
-        $filesystem->read('/home/somekey/aaa/test2.txt')->willReturn('Other text content');
-        $filesystem->read('/home/somekey/bbb/a.txt')->willReturn('A text content');
+        $filesystem->read('test/aaa/z.txt')->willReturn('Some content');
+        $filesystem->read('test/aaa/test2.txt')->willReturn('Other text content');
 
-        $files = $this->getFiles('/home/somekey');
+        $files = $this->getFiles('test');
 
         $files[0]->shouldBeAnInstanceOf('Cocoders\FileSource\File');
-        $files[0]->path->shouldBe('vfs://tmp/12a/aaa/test.txt');
+        $files[0]->path->shouldBe('vfs://tmp/12a/test/aaa/z.txt');
         $files[1]->shouldBeAnInstanceOf('Cocoders\FileSource\File');
-        $files[1]->path->shouldBe('vfs://tmp/12a/aaa/test2.txt');
-        $files[2]->shouldBeAnInstanceOf('Cocoders\FileSource\File');
-        $files[2]->path->shouldBe('vfs://tmp/12a/bbb/a.txt');
+        $files[1]->path->shouldBe('vfs://tmp/12a/test/aaa/test2.txt');
     }
 
     function it_saves_content_of_files_from_gaufrette_at_local_disk(Filesystem $filesystem)
     {
-        $filesystem->listKeys('/home/somekey')->willReturn([
+        $filesystem->listKeys('test')->willReturn([
             'keys' => [
-                '/home/somekey/aaa/test.txt',
-                '/home/somekey/aaa/test2.txt',
-                '/home/somekey/bbb/a.txt'
+                'test/aaa/z.txt',
+                'test/aaa/test2.txt',
+                'test.txt'
             ],
             'dirs' => [
-                '/home/somekey/aaa',
-                '/home/somekey/bbb'
+                'test/aaa'
             ]
         ]);
 
-        $filesystem->read('/home/somekey/aaa/test.txt')->willReturn('Some content');
-        $filesystem->read('/home/somekey/aaa/test2.txt')->willReturn('Other text content');
-        $filesystem->read('/home/somekey/bbb/a.txt')->willReturn('A text content');
+        $filesystem->read('test/aaa/z.txt')->willReturn('Some content');
+        $filesystem->read('test/aaa/test2.txt')->willReturn('Other text content');
 
-        $files = $this->getFiles('/home/somekey');
+        $files = $this->getFiles('test');
 
+        $files[0]->shouldBeAnInstanceOf('Cocoders\FileSource\File');
         $files[0]->shouldHaveContent('Some content');
+        $files[1]->shouldBeAnInstanceOf('Cocoders\FileSource\File');
         $files[1]->shouldHaveContent('Other text content');
-        $files[2]->shouldHaveContent('A text content');
     }
 
     public function getMatchers()

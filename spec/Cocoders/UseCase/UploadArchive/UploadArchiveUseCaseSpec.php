@@ -7,6 +7,7 @@ use Cocoders\Archive\ArchiveFile;
 use Cocoders\Archive\ArchiveRepository;
 use Cocoders\Upload\UploadedArchive\UploadedArchive;
 use Cocoders\Upload\UploadedArchive\UploadedArchiveFactory;
+use Cocoders\Upload\UploadedArchive\UploadedArchiveRepository;
 use Cocoders\Upload\UploadProvider\UploadProvider;
 use Cocoders\Upload\UploadProvider\UploadProviderRegistry;
 use Cocoders\UseCase\UploadArchive\UploadArchiveRequest;
@@ -26,6 +27,7 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         UploadedArchiveFactory $uploadedArchiveFactory,
         UploadProviderRegistry $uploadProviderRegistry,
         ArchiveRepository $archiveRepository,
+        UploadedArchiveRepository $uploadedArchiveRepository,
         Archive $archive,
         UploadProvider $provider,
         UploadedArchive $uploadedArchive,
@@ -37,9 +39,11 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
         $archive->getFiles()->willReturn([new ArchiveFile('/home/cocoders/aaa/a.jpg')]);
         $provider->upload('myArchiveName', ['/home/cocoders/aaa/a.jpg'])->willReturn();
         $uploadedArchiveFactory->create($archive, [$provider])->willReturn($uploadedArchive);
-        $archiveRepository->add($uploadedArchive)->willReturn();
+        $archiveRepository->add($archive)->willReturn();
+        $archive->upload()->willReturn();;;;
+        $uploadedArchiveRepository->add($uploadedArchive)->willReturn();
 
-        $this->beConstructedWith($uploadedArchiveFactory, $uploadProviderRegistry, $archiveRepository);
+        $this->beConstructedWith($uploadedArchiveFactory, $uploadProviderRegistry, $archiveRepository, $uploadedArchiveRepository);
     }
 
     function it_pass_archive_files_to_providers(
@@ -53,10 +57,14 @@ class UploadArchiveUseCaseSpec extends ObjectBehavior
 
     function it_saves_uploaded_archive_after_upload(
         ArchiveRepository $archiveRepository,
+        Archive $archive,
+        UploadedArchiveRepository $uploadedArchiveRepository,
         UploadedArchive $uploadedArchive
     )
     {
-        $archiveRepository->add($uploadedArchive)->shouldBeCalled();
+        $archive->upload()->shouldBeCalled();
+        $archiveRepository->add($archive)->shouldBeCalled();
+        $uploadedArchiveRepository->add($uploadedArchive)->shouldBeCalled();
 
         $this->execute(new UploadArchiveRequest('myArchiveName', ['myProvider1']));
     }

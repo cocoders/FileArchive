@@ -5,8 +5,13 @@ namespace Cocoders\Upload\UploadedArchive;
 use Cocoders\Archive\Archive;
 use Cocoders\Upload\UploadProvider\UploadProvider;
 
-interface UploadedArchive extends Archive
+interface UploadedArchive
 {
+    /**
+     * @return string
+     */
+    public function getName();
+
     /**
      * @return UploadProvider[]
      */

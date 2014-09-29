@@ -11,4 +11,10 @@ interface CreateArchiveResponder extends Responder
      * @return mixed
      */
     public function archiveCreated($name);
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function archiveAlreadyExists($name);
 }

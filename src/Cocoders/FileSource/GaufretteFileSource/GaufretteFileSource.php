@@ -32,19 +32,37 @@ class GaufretteFileSource implements FileSource
         $listedKeys = $this->filesystem->listKeys($path);
 
         $files = [];
-        foreach ($listedKeys['dirs'] as $key) {
-            $dirPath = str_replace($path, $this->tmpPath, $key);
-            mkdir($dirPath, 0700, true);
-        }
         foreach ($listedKeys['keys'] as $key) {
-            $filePath = str_replace($path, $this->tmpPath, $key);
-            file_put_contents(
-                $filePath,
-                $this->filesystem->read($key)
-            );
-            $files[] = new File($filePath);
+            $filePath = $this->tmpPath . '/' . $key;
+            $this->createBaseDirectory($filePath);
+            if ($this->isNotInRootDir($filePath)) {
+                file_put_contents(
+                    $filePath,
+                    $this->filesystem->read($key)
+                );
+                $files[] = new File($filePath);
+            }
         }
 
         return $files;
+    }
+
+    /**
+     * @param string $filePath
+     */
+    private function createBaseDirectory($filePath)
+    {
+        if (!file_exists(dirname($filePath))) {
+            mkdir(dirname($filePath), 0700, true);
+        }
+    }
+
+    /**
+     * @param string $filePath
+     * @return boolean
+     */
+    private function isNotInRootDir($filePath)
+    {
+        return dirname($filePath) !== $this->tmpPath;
     }
 }

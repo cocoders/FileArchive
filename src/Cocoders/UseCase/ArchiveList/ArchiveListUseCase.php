@@ -37,7 +37,7 @@ class ArchiveListUseCase implements ResponderAware
     {
         $archivesItems = [];
         foreach ($archives as $archive) {
-            $isUploaded = $archive instanceof UploadedArchive;
+            $isUploaded = $archive->isUploaded();
             $archivesItems[] = new ArchiveListItem($archive->getName(), $isUploaded);
         }
 

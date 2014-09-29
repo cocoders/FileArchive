@@ -47,4 +47,19 @@ class InMemoryUploadedArchive implements UploadedArchive
     {
         return $this->archive->getFiles();
     }
+
+    /**
+     * @return boolean
+     */
+    public function isUploaded()
+    {
+        return true;
+    }
+
+    /**
+     * @return void
+     */
+    public function upload()
+    {
+    }
 }

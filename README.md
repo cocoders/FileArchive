@@ -27,4 +27,13 @@ Zespół reprezentuje społeczność PHPers Trójmiasto.
 ## [Dokumentacja](docs/index.md) ##
 
 Utworzyliśmy też przykład użycia aplikacji w frameworku Symfony2 w odzielnym repozytorium
-(FileSystemSymfony)[https://github.com/cocoders/FileArchiveSymfony]
+[FileSystemSymfony](https://github.com/cocoders/FileArchiveSymfony)
+
+## W planach
+
+* Pokazanie użytkownikowi podpiętych do aplikacji kont
+* Zarządzanie kontami za pomocą wygodnego kreatora
+* Możliwość pisania własnych wtyczek w celu rozwijania zasobów aplikacji
+* W prosty sposób pokazać użytkownikowi dane z aktualnie przeglądanego archiwum
+* Pobranie kopii archuwym z dowolnego serwisu do lokalnego katalogu
+* Przeglądanie aktualnych zasobów za pomocą wygodnego i intuicyjnego GUI
